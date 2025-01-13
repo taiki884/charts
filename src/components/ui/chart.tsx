@@ -44,16 +44,19 @@ export function ChartContainer({
   )
 }
 
-// 他のコンポーネントは変更なし...
+interface PayloadItem {
+  name: string
+  value: number
+  payload: {
+    stroke?: string
+    fill?: string
+    [key: string]: string | number | boolean | undefined
+  }
+}
 
-// ChartTooltipContentコンポーネント
 interface ChartTooltipContentProps {
   active?: boolean
-  payload?: Array<{
-    name: string
-    value: number
-    payload: Record<string, string | number | boolean>
-  }>
+  payload?: PayloadItem[]
   label?: string
   hideLabel?: boolean
   indicator?: 'line' | 'dot'
@@ -103,19 +106,16 @@ export function ChartTooltipContent({
   )
 }
 
-// ChartTooltipコンポーネント
 export function ChartTooltip(props: TooltipProps<ValueType, NameType>) {
   return <Tooltip {...props} />
 }
 
-// ChartLegendコンポーネント
 export function ChartLegend(props: Omit<LegendProps, 'ref'>) {
   return <Legend {...props} />
 }
 
-// ChartLegendContentコンポーネント
 interface ChartLegendContentProps {
-  payload?: Payload[]
+  payload?: Array<Payload & { color?: string }>
 }
 
 export function ChartLegendContent({ payload }: ChartLegendContentProps) {
