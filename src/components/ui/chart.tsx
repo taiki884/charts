@@ -1,8 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import { Legend, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts'
+import { Legend, ResponsiveContainer, Tooltip, TooltipProps, LegendProps } from 'recharts'
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent'
+import { Payload } from 'recharts/types/component/DefaultLegendContent'
 
 export type ChartConfig = Record<
   string,
@@ -51,7 +52,7 @@ interface ChartTooltipContentProps {
   payload?: Array<{
     name: string
     value: number
-    payload: Record<string, any>
+    payload: Record<string, string | number | boolean>
   }>
   label?: string
   hideLabel?: boolean
@@ -80,13 +81,17 @@ export function ChartTooltipContent({
             {indicator === 'dot' && (
               <div
                 className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: item.payload.stroke || item.payload.fill }}
+                style={{
+                  backgroundColor: (item.payload.stroke || item.payload.fill) as string,
+                }}
               />
             )}
             {indicator === 'line' && (
               <div
                 className="h-0.5 w-2"
-                style={{ backgroundColor: item.payload.stroke || item.payload.fill }}
+                style={{
+                  backgroundColor: (item.payload.stroke || item.payload.fill) as string,
+                }}
               />
             )}
             <span className="font-medium">{item.name}:</span>
@@ -104,17 +109,19 @@ export function ChartTooltip(props: TooltipProps<ValueType, NameType>) {
 }
 
 // ChartLegendコンポーネント
-export function ChartLegend(props: any) {
+export function ChartLegend(props: Omit<LegendProps, 'ref'>) {
   return <Legend {...props} />
 }
 
 // ChartLegendContentコンポーネント
-export function ChartLegendContent(props: any) {
-  const { payload } = props
+interface ChartLegendContentProps {
+  payload?: Payload[]
+}
 
+export function ChartLegendContent({ payload }: ChartLegendContentProps) {
   return (
     <div className="flex gap-4">
-      {payload?.map((entry: any, index: number) => (
+      {payload?.map((entry, index) => (
         <div key={`item-${index}`} className="flex items-center gap-2">
           <div
             className="h-2 w-2 rounded-full"
