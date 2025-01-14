@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as React from 'react'
 import { Legend, ResponsiveContainer, Tooltip, TooltipProps, LegendProps } from 'recharts'
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent'
@@ -133,3 +135,5 @@ export function ChartLegendContent({ payload }: ChartLegendContentProps) {
     </div>
   )
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
